@@ -1,0 +1,835 @@
+﻿@using LoadSoThuTuPhong.Models
+@{
+    ViewData["NonSixOs"] = true;
+    var tenPhong = " - "; 
+    var banners = ViewBag.Banners as List<BannerModel>;
+    var leftBanners = banners?.Where(b => b.ViTri == "left").ToList();
+    var rightBanners = banners?.Where(b => b.ViTri == "right").ToList();
+
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: #f5faff;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        color: #003366;
+    }
+
+    img.logo {
+        filter: brightness(90%) contrast(150%);
+        border-radius: 23px;
+    }
+
+    /* //------------------------------HEADER STYLES-------------------------------// */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #005999;
+        padding: 15px 30px;
+        color: white;
+        position: relative;
+        border-bottom: 3px solid #ffcc00;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .header-logo {
+        height: 100px;
+        width: 100px;
+        margin-right: 20px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 2px solid white;
+    }
+
+    .hospital-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hospital-name-vn {
+        font-size: 55px;
+        font-weight: bold;
+        color: white;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: uppercase;
+        display: inline-block;
+        transform: scaleY(1.15); 
+    }
+
+    .header-center {
+        text-align: center;
+        flex: 1;
+    }
+    .current-time {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #b3e0ff;
+        background: rgba(0, 60, 102, 0.7);
+        padding: 5px 15px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .settings-icon, #btnFullscreen {
+        position: absolute;
+        right: 20px;
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 8px;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        opacity: 0.8;
+    }
+
+    .settings-icon {
+        top: calc(50% - 30px);
+        transform: translateY(-50%);
+    }
+
+    #btnFullscreen {
+        top: calc(50% + 30px);
+        transform: translateY(-50%);
+    }
+
+        .settings-icon:hover, #btnFullscreen:hover {
+            color: white;
+            background: rgba(0, 40, 80, 0.9);
+            transform: translateY(-50%) scale(1.1);
+            opacity: 1;
+        }
+    /* //------------------------------ DANH SÁCH BỆNH NHÂN -----------------------------// */
+
+    .patient-list {
+        margin: 10px auto 80px;
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+        .patient-list td {
+            padding: 10px 5px;
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+            border-right: 2px solid #eee;
+        }
+        .patient-list tbody tr {
+            border-bottom: 3px solid #000 !important; 
+        }
+
+            .patient-list tbody tr:last-child {
+                border-bottom: none !important;
+            }
+
+            .patient-list tbody tr:nth-child(odd) {
+                background-color: #f8fbff;
+            }
+
+            .patient-list tbody tr:nth-child(even) {
+                background-color: #ffffff;
+            }
+
+            .patient-list tbody tr:hover {
+                background-color: #e6f2ff;
+            }
+
+        .patient-list th:nth-child(1),
+        .patient-list td:nth-child(1) {
+            width: 50%; 
+        }
+
+        .patient-list th:nth-child(2),
+        .patient-list td:nth-child(2) {
+            width: 15%;
+        }
+
+        .patient-list th:nth-child(3),
+        .patient-list td:nth-child(3) {
+            width: 35%; 
+        }
+        .patient-list th {
+            background: #1a75bc;
+            color: white;
+            text-transform: uppercase;
+            font-size: 50px;
+            padding: 10px;
+            text-align: center;
+            width: 10.33%;
+            font-weight: bold;
+        }
+
+    .status-invite {
+        color: #e60000;
+        animation: blink 1s infinite alternate;
+    }
+
+    .status-wait {
+        color: #338BB9;
+    }
+
+    .status-empty {
+        color: #338BB9;
+    }
+
+    @@keyframes blink {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0.4;
+        }
+    }
+
+    .ticker-wrapper {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .ticker-content.loaded {
+        opacity: 1;
+    }
+    /* ----------------------------QUA LƯỢT------------------------------------- */
+
+    .ticker-wrapper {
+        display: flex;
+        align-items: center;
+        background: #005999;
+        color: white;
+        position: fixed;
+        bottom: 65px;
+        width: 100%;
+        left: -3px;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+        overflow: hidden;
+        border-radius: 14px; 
+        height: 70px;
+    }
+
+    /* Tiêu đề bên trái */
+    .ticker-title {
+        flex: 0 0 auto;
+        background: #004477;
+        padding: 6px 16px; 
+        font-size: 2.4rem; 
+        font-weight: bold;
+        text-transform: uppercase;
+        border-right: 2px solid #003366;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-top-left-radius: 14px;
+        border-bottom-left-radius: 14px;
+    }
+
+    /* Khung chạy chữ */
+    .ticker {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+        height: 100%; 
+    }
+    /* Nội dung chạy */
+    .ticker-content {
+        display: inline-block;
+        white-space: nowrap;
+        animation: scroll-left 40s linear infinite;
+        padding-left: 100%;
+    }
+    /* Item */
+    .ticker-item {
+        display: inline-block;
+        padding: 2px 10px;
+        font-size: 2.6rem;
+        font-weight: bold;
+    }
+
+    @@keyframes scroll-left {
+        0% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(-100%);
+            opacity: 1;
+        }
+    }
+
+/*//---------------------------Bannner--------------------------------//*/
+    .main-layout {
+        display: flex;
+        width: 100%;
+        height: calc(100vh - 140px);
+    }
+
+    .banner {
+        width: 14%;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+        .banner img {
+            width: 100%;
+            height: 82%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+    .content-center {
+        width: 72%;
+        padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .patient-list {
+        width: 100%;
+    }
+
+    .banner-content {
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+        .banner-content img {
+            width: 100%;
+            height: 82%;
+            object-fit: cover;
+        }
+
+    .banner-text {
+        padding: 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #005999;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    .carousel {
+        height: 100%;
+    }
+
+    .carousel-inner {
+        height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .carousel-item {
+        height: 100%;
+        transition: transform 0.6s ease;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+        opacity: 0.5;
+        transition: opacity 0.3s;
+    }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 0.9;
+        }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        padding: 15px;
+    }
+    /* //-------------------------------------------FOOTER--------------------------------------// */
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+        left: 0;
+        background: #003366;
+        color: #cccccc; 
+        text-align: center;
+        font-size: 1.8rem; 
+        font-weight: normal;
+
+    }
+
+    .dropdown-item .highlight {
+        background-color: yellow;
+        color: #000; 
+        padding: 0 2px;
+    }
+
+    .dropdown-item {
+        padding: 6px 12px;
+        cursor: pointer;
+        color: #000; 
+    }
+
+        .dropdown-item.active, .dropdown-item:hover {
+            background-color: #e6e6e6 !important;
+            color: #000 !important; 
+        }
+
+    .patient-list td:first-child {
+        text-align: left;
+    }
+    
+    #toggleBannerBtn {
+        transition: all 0.3s ease;
+        padding: 8px 16px;
+        border-radius: 8px;
+    }
+
+        #toggleBannerBtn.banner-hidden {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+            #toggleBannerBtn.banner-hidden .bi {
+                color: white;
+            }
+    .hospital-department {
+        font-size: 2rem !important;
+        color: #b3e0ff !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 8px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        animation: fadeIn 1s ease-in-out;
+        display: none;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.8;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .dropdown-custom {
+        position: relative;
+        width: 100%;
+    }
+
+    .input-with-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        padding-right: 40px;
+        width: 100%;
+    }
+
+    .dropdown-toggle-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 40px;
+        background: none;
+        border: 1px solid #dee2e6;
+        border-left: none;
+        border-radius: 0 0.375rem 0.375rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #6c757d;
+        transition: all 0.3s ease;
+    }
+
+        .dropdown-toggle-btn:hover {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+    .dropdown-arrow {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle-btn.active .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-menu-custom {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        margin-top: 2px;
+        max-height: 300px;
+        overflow: hidden;
+    }
+
+    .dropdown-search {
+        padding: 10px;
+        border-bottom: 1px solid #dee2e6;
+        background: #f8f9fa;
+    }
+
+    .dropdown-list {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
+    .dropdown-options {
+        padding: 5px 0;
+    }
+
+    .dropdown-option {
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .dropdown-option:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-option.selected {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .dropdown-option.disabled {
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+</style>
+
+<div class="card p-1 ">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            @* <img src="~/dist/img/OIP.jpg" alt="Logo Bệnh viện" class="header-logo"> *@
+            <img src="" alt="Logo Bệnh viện" class="header-logo">
+            <div class="hospital-info">
+                <div class="hospital-name-vn" id="hospitalTitle">
+                  
+                </div>
+                <div class="hospital-department" id="departmentInfo"></div>
+            </div>
+        </div>
+        <div class="icon-container">
+            <div class="settings-icon"
+                 data-bs-toggle="modal"
+                 data-bs-target="#settingsModal">
+                ⚙
+            </div>
+            <button class="fullscreen-icon" id="btnFullscreen">⛶</button>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- BANNER TRÁI -->
+        <div class="banner banner-left" id="bannerLeft">
+            @if (leftBanners != null && leftBanners.Any())
+            {
+                <div id="leftBannerCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < leftBanners.Count; i++)
+                        {
+                            var banner = leftBanners[i];
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <div class="banner-content">
+                                    @if (!string.IsNullOrEmpty(banner.DuongDan))
+                                    {
+                                        <a href="@banner.DuongDan" target="_blank">
+                                            <img src="@banner.HinhAnh" alt="@banner.TieuDe">
+                                            <div class="banner-text">@banner.TieuDe</div>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img src="@banner.HinhAnh" alt="@banner.TieuDe">
+                                        <div class="banner-text">@banner.TieuDe</div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    @if (leftBanners.Count > 1)
+                    {
+                        <button class="carousel-control-prev" type="button" data-bs-target="#leftBannerCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#leftBannerCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    }
+                </div>
+            }
+            else
+            {
+                @* <!-- Banner mặc định -->
+                <div class="banner-content">
+                    <img src="~/dist/img/default-left.jpg" alt="Banner mặc định">
+                    <div class="banner-text">Quảng cáo</div>
+                </div> *@
+            }
+        </div>
+
+        <!-- NỘI DUNG CHÍNH -->
+        <div class="content-center"> 
+            <table class="patient-list" >
+                <thead >
+                    <tr>
+                        <th>HỌ VÀ TÊN</th>
+                        <th>STT</th>
+                        <th>TRẠNG THÁI</th>
+                    </tr>
+                </thead>
+                <tbody id="sttList"></tbody>
+            </table>
+
+            <div class="ticker-wrapper">
+                <div class="ticker-title">QUA LƯỢT</div>
+                <div class="ticker">
+                    <div class="ticker-content" id="quaLuotList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BANNER PHẢI -->
+        <div class="banner banner-right" id="bannerRight">
+            @if (rightBanners != null && rightBanners.Any())
+            {
+                <div id="rightBannerCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < rightBanners.Count; i++)
+                        {
+                            var banner = rightBanners[i];
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <div class="banner-content">
+                                    @if (!string.IsNullOrEmpty(banner.DuongDan))
+                                    {
+                                        <a href="@banner.DuongDan" target="_blank">
+                                            <img src="@banner.HinhAnh" alt="@banner.TieuDe">
+                                            <div class="banner-text">@banner.TieuDe</div>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img src="@banner.HinhAnh" alt="@banner.TieuDe">
+                                        <div class="banner-text">@banner.TieuDe</div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    @if (rightBanners.Count > 1)
+                    {
+                        <button class="carousel-control-prev" type="button" data-bs-target="#rightBannerCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#rightBannerCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    }
+                </div>
+            }
+            else
+            {
+               @*  <!-- Banner mặc định -->
+                <div class="banner-content">
+                    <img src="~/dist/img/default-right.jpg" alt="Banner mặc định">
+                    <div class="banner-text">Quảng cáo</div>
+                </div> *@
+            }
+        </div>
+    </div>
+    <div class="footer">
+        © Công Ty Phần Mềm Vũ Phong | Hotline: 0901 878 896 | Email: sixossoft@gmail.com | Website: https://sixossoft.com
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chọn thông tin khoa phòng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Dropdown Khoa -->
+                <div class="mb-3">
+                    <label class="form-label">Chọn khoa</label>
+                    <div class="dropdown-custom">
+                        <div class="input-with-dropdown">
+                            <input type="text"
+                                   class="form-control search-input"
+                                   id="searchKhoa"
+                                   placeholder="Tìm kiếm khoa..."
+                                   autocomplete="off">
+                            <button class="dropdown-toggle-btn" type="button" id="toggleKhoa">
+                                <i class="dropdown-arrow">▼</i>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu-custom" id="dropdownKhoa">
+                            <div class="dropdown-search">
+                                <input type="text"
+                                       class="form-control"
+                                       id="filterKhoa"
+                                       placeholder="Tìm kiếm khoa...">
+                            </div>
+                            <div class="dropdown-list">
+                                <select id="selectKhoa" class="form-select d-none" name="KhoaId">
+                                    <option value="">-- Chọn khoa --</option>
+                                </select>
+                                <div class="dropdown-options" id="khoaOptions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dropdown Phòng -->
+                <div class="mb-3">
+                    <label class="form-label">Chọn phòng</label>
+                    <div class="dropdown-custom">
+                        <div class="input-with-dropdown">
+                            <input type="text"
+                                   class="form-control search-input"
+                                   id="searchPhong"
+                                   placeholder="Tìm kiếm phòng..."
+                                   autocomplete="off"
+                                   disabled>
+                            <button class="dropdown-toggle-btn" type="button" id="togglePhong">
+                                <i class="dropdown-arrow">▼</i>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu-custom" id="dropdownPhong">
+                            <div class="dropdown-search">
+                                <input type="text"
+                                       class="form-control"
+                                       id="filterPhong"
+                                       placeholder="Tìm kiếm phòng...">
+                            </div>
+                            <div class="dropdown-list">
+                                <select id="selectPhong" class="form-select d-none" name="PhongId">
+                                    <option value="">-- Chọn phòng --</option>
+                                </select>
+                                <div class="dropdown-options" id="phongOptions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chọn hiển thị banner -->
+                <div class="mb-3">
+                    <label class="form-label">Hiển thị banner</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bannerOption"
+                               id="bannerBoth" value="both" checked>
+                        <label class="form-check-label" for="bannerBoth">
+                            Hiển thị cả hai banner
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bannerOption"
+                               id="bannerLeftOnly" value="left">
+                        <label class="form-check-label" for="bannerLeftOnly">
+                            Chỉ banner trái
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bannerOption"
+                               id="bannerRightOnly" value="right">
+                        <label class="form-check-label" for="bannerRightOnly">
+                            Chỉ banner phải
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bannerOption"
+                               id="bannerNone" value="none">
+                        <label class="form-check-label" for="bannerNone">
+                            Ẩn tất cả banner
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button class="btn btn-primary" id="saveRoomBtn"
+                        style="background: #004477 !important;">
+                    Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="/dist/js/BienChung.js"></script>
+    <script src="@Url.Content("~/dist/lib/Jquery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/dist/lib/Jquery/jquery.inputmask.js")"></script>
+    <script src="\dist\lib\bootstrap\dist\js\bootstrap.bundle.min.js" defer></script>
+    <script src="~/dist/js/loadlcdsothutu.js" asp-append-version="true" defer></script>
+
+}

@@ -1,0 +1,1051 @@
+﻿@model IEnumerable<LoadSoThuTuPhong.Models.BannerModel>
+@{
+    ViewData["Title"] = "Quản lý Banner";
+}
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    /* TỐI ƯU HIỂN THỊ 100% MÀN HÌNH */
+    html, body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+   /*  .container-fluid {
+        height: calc(100vh - 60px);
+        padding: 5px 10px;
+        margin-top: 0 !important;
+    }
+ */
+    /* ĐIỀU CHỈNH SIDEBAR (FORM) */
+    .col-lg-2\\.76, .col-md-3 {
+        width: 22% !important;
+        min-width: 280px;
+        max-width: 320px;
+        height: calc(100vh - 70px);
+    }
+
+    .card.shadow-sm.border-0.h-100 {
+        height: 100% !important;
+        max-height: calc(100vh - 70px);
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 12px 15px;
+        max-height: calc(100vh - 200px) !important;
+        overflow-y: auto;
+    }
+
+    .card-footer {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+    }
+
+    /* ĐIỀU CHỈNH FORM ELEMENTS */
+    .mb-3 {
+        margin-bottom: 0.8rem !important;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .form-control, .form-select {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+        height: 38px;
+    }
+
+    textarea.form-control {
+        min-height: 60px;
+        resize: vertical;
+    }
+
+    .input-group .btn {
+        padding: 6px 12px;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 7px 14px;
+    }
+
+    .btn-group-lg .btn {
+        padding: 5px 10px !important;
+        font-size: 0.9rem;
+    }
+
+    .d-grid.gap-2.mt-4 {
+        margin-top: 1.2rem !important;
+    }
+
+    /* PREVIEW IMAGE */
+    #imagePreview img {
+        max-width: 100%;
+        max-height: 80px;
+    }
+
+    /* ĐIỀU CHỈNH DANH SÁCH BANNER */
+    .col-lg-9\\.24, .col-md-9 {
+        width: 78% !important;
+        height: calc(100vh - 70px);
+    }
+
+    .card.shadow-sm.border-0.h-100.d-flex.flex-column {
+        height: 100% !important;
+    }
+
+    /* FILTER SECTION */
+    .bg-white.border-bottom {
+        padding: 10px 15px !important;
+    }
+
+    .input-group.input-group-lg {
+        width: 300px !important;
+    }
+
+    .input-group-lg .form-control-lg {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+        height: 45px;
+    }
+
+    .btn-lg {
+        font-size: 0.95rem;
+        padding: 10px 15px;
+    }
+
+    /* TABLE OPTIMIZATION */
+    .table-responsive {
+        height: calc(100vh - 280px);
+        min-height: 400px;
+    }
+
+    /* Tách riêng phần header và body để cuộn độc lập */
+    .table {
+        margin-bottom: 0;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #f8f9fa;
+    }
+
+        thead tr {
+            height: 50px !important;
+        }
+
+    tbody tr {
+        height: 60px !important;
+    }
+
+    .table th, .table td {
+        padding: 8px 6px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Column width adjustments */
+    th[width="60"], td:first-child {
+        width: 50px !important;
+        min-width: 50px;
+    }
+
+    th[width="170"], td:nth-child(2) {
+        width: 120px !important;
+        min-width: 120px;
+    }
+
+    th[width="150"], td:nth-child(3) {
+        width: 200px !important;
+        min-width: 200px;
+        max-width: 250px;
+    }
+
+    th[width="800"], td:nth-child(4) {
+        width: 150px !important;
+        min-width: 150px;
+    }
+
+    th[width="110"], td:nth-child(5) {
+        width: 80px !important;
+        min-width: 80px;
+    }
+
+    th[width="90"], td:nth-child(6) {
+        width: 70px !important;
+        min-width: 70px;
+    }
+
+    th[width="140"], td:nth-child(7) {
+        width: 100px !important;
+        min-width: 100px;
+    }
+
+    th[width="250"], td:nth-child(8) {
+        width: 180px !important;
+        min-width: 180px;
+    }
+
+    /* Image in table */
+    .img-thumbnail {
+        width: 90px !important;
+        height: 70px !important;
+        object-fit: cover;
+    }
+
+    /* Text overflow handling */
+    .text-muted[style*="max-width: 400px"] {
+        max-width: 180px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Badge sizes */
+    .badge {
+        font-size: 0.8rem !important;
+        padding: 4px 8px !important;
+    }
+
+    /* Footer section */
+    .card-footer.bg-white.border-top {
+        padding: 10px 15px !important;
+        font-size: 0.9rem;
+    }
+
+    .text-muted[style*="font-size: 1.2rem"] {
+        font-size: 0.9rem !important;
+    }
+
+    .text-muted strong[style*="font-size: 1.3rem"] {
+        font-size: 1rem !important;
+    }
+
+    .vr {
+        height: 18px;
+        margin: 0 8px;
+    }
+
+    /* Pagination */
+    .pagination-lg .page-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Scrollbar styling */
+    .card-body::-webkit-scrollbar,
+    .table-responsive::-webkit-scrollbar,
+    div[style*="overflow-y: auto"]::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .card-body::-webkit-scrollbar-track,
+    .table-responsive::-webkit-scrollbar-track,
+    div[style*="overflow-y: auto"]::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    .card-body::-webkit-scrollbar-thumb,
+    .table-responsive::-webkit-scrollbar-thumb,
+    div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+
+        .card-body::-webkit-scrollbar-thumb:hover,
+        .table-responsive::-webkit-scrollbar-thumb:hover,
+        div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+    /* Icon sizes */
+    .fas, .far, .fab {
+        font-size: 0.9em;
+    }
+
+    /* Compact layout for filters */
+    .d-flex.justify-content-between.align-items-center {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* No data section */
+    .text-center.py-5 {
+        padding: 2rem 0 !important;
+    }
+
+    .fa-6x {
+        font-size: 4em;
+    }
+
+    h5[style*="font-size: 1.8rem"] {
+        font-size: 1.4rem !important;
+    }
+
+    p[style*="font-size: 1.2rem"] {
+        font-size: 1rem !important;
+    }
+    .form-check-input:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    #noResultsMessage {
+        animation: fadeIn 0.3s ease-in;
+        border-radius: 8px;
+        border-left: 4px solid #17a2b8;
+    }
+
+    .btn-outline-secondary.active-filter {
+        background-color: #005999;
+        color: white;
+        border-color: #005999;
+    }
+
+    .dropdown-menu {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        border: none;
+        padding: 0.5rem 0;
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1.5rem;
+        transition: all 0.2s;
+    }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #005999;
+        }
+
+        .dropdown-item:active {
+            background-color: #005999;
+            color: white;
+        }
+
+    .form-check-input {
+        width: 1.2em;
+        height: 1.2em;
+        margin-top: 0.15em;
+        cursor: pointer;
+    }
+
+        .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+    .form-check-label {
+        font-size: 1rem;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+</style>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-lg-2.76 col-md-3 mb-3"
+             style="width: 20%; position: sticky; top: 10px; height: calc(90vh - 20px);">
+
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header" style="background-color: #005999; color: white;">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>@(ViewBag.IsEdit == true ? "SỬA BANNER" : "THÊM MỚI")
+                    </h5>
+                </div>
+                <div class="card-body" style="overflow-y: auto; max-height: calc(100vh - 150px);">
+                    <form id="bannerForm" enctype="multipart/form-data" onsubmit="return saveBanner(event)">
+                        <input type="hidden" id="bannerId" value="@(ViewBag.EditingBanner?.ID ?? 0)" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tiêu đề *</label>
+                            <input type="text" id="tieuDe" class="form-control"
+                                   value="@ViewBag.EditingBanner?.TieuDe"
+                                   required placeholder="Nhập tiêu đề">
+                            <div class="invalid-feedback">Vui lòng nhập tiêu đề</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Hình ảnh</label>
+                            <div class="input-group">
+                                <input type="file" id="hinhAnhFile" class="form-control"
+                                       accept=".jpg,.jpeg,.png,.gif,.webp"
+                                       onchange="previewImage(this)">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="document.getElementById('hinhAnhFile').value=''; document.getElementById('imagePreview').innerHTML='';">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">JPG, PNG, GIF, WebP (≤5MB)</small>
+                            <div id="imagePreview" class="mt-2 text-center">
+                                @if (!string.IsNullOrEmpty(ViewBag.EditingBanner?.HinhAnh))
+                                {
+                                    <img src="@ViewBag.EditingBanner.HinhAnh"
+                                         style="max-width: 100%; max-height: 120px; border-radius: 5px;"
+                                         class="img-thumbnail"
+                                         alt="Banner preview">
+                                    <div class="mt-1">
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="removeCurrentImage()">
+                                            <i class="fas fa-trash"></i> Xóa ảnh
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                            <input type="hidden" id="currentImage" value="@ViewBag.EditingBanner?.HinhAnh" />
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">Vị trí *</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="viTri" id="viTriLeft"
+                                               value="left" @(ViewBag.EditingBanner?.ViTri == "left" ? "checked" : "") required>
+                                        <label class="form-check-label" for="viTriLeft">Trái</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="viTri" id="viTriRight"
+                                               value="right" @(ViewBag.EditingBanner?.ViTri == "right" ? "checked" : "")>
+                                        <label class="form-check-label" for="viTriRight">Phải</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">Thứ tự</label>
+                                <input type="number" id="thuTu" class="form-control"
+                                       value="@(ViewBag.EditingBanner?.ThuTu ?? 0)"
+                                       min="0" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nội dung</label>
+                            <textarea id="noiDung" class="form-control" rows="2"
+                                      placeholder="Mô tả ngắn">@ViewBag.EditingBanner?.NoiDung</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Đường dẫn</label>
+                            <input type="url" id="duongDan" class="form-control"
+                                   value="@ViewBag.EditingBanner?.DuongDan"
+                                   placeholder="https://example.com">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">Chi nhánh</label>
+                                <select id="idChiNhanh" class="form-select">
+                                    <option value="">-- Banner chung --</option>
+                                    @foreach (var item in ViewBag.thongTinDN)
+                                    {
+                                        <option value="@item.id">@item.tenCSKCB</option>
+                                    }
+                                </select>
+                                <small class="text-muted">Để trống nếu là banner chung</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="hoatDong"
+                                       checked="@(ViewBag.EditingBanner == null || ViewBag.EditingBanner.HoatDong)"
+                                       style="transform: scale(1.2);">
+                                <label class="form-check-label fw-bold ms-2" for="hoatDong">
+                                    Hoạt động
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            @if (ViewBag.IsEdit == true)
+                            {
+                                <button type="button" id="cancelButton" class="btn btn-secondary mb-2" onclick="cancelEdit()">
+                                    <i class="fas fa-times me-1"></i> Hủy
+                                </button>
+                            }
+                            <button type="submit" id="saveButton" class="btn btn-success py-2" onclick="saveBanner(event)">
+                                <i class="fas fa-save me-1"></i>
+                                <span id="saveButtonText">
+                                    @(ViewBag.IsEdit == true ? "CẬP NHẬT" : "LƯU BANNER")
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Thêm phần tử ẩn để lưu trạng thái -->
+                        <input type="hidden" id="isEditMode" value="@(ViewBag.IsEdit == true ? "true" : "false")">
+                    </form>
+                </div>
+                <div class="card-footer bg-light">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Banner được hiển thị theo thứ tự từ nhỏ đến lớn
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9.24 col-md-9" style="width: 80%;">
+            <div class="card shadow-sm border-0 h-100 d-flex flex-column">
+                <!-- HEADER CỐ ĐỊNH -->
+                <div class="card-header" style="background-color: #005999; color: white; flex-shrink: 0;">
+                    <h5 class="mb-0" id="bannerHeader">
+                        <i class="fas fa-list me-2"></i>DANH SÁCH BANNER (@ViewBag.TotalItems)
+                    </h5>
+                </div>
+
+                <!-- PHẦN BỘ LỌC CỐ ĐỊNH -->
+                <div class="bg-white border-bottom py-3 px-4" style="flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- 🔍 TÌM KIẾM BÊN TRÁI -->
+                        <div class="d-flex align-items-center">
+                            <div class="input-group input-group-lg" style="width: 500px;">
+                                <input type="text" id="searchInput" class="form-control form-control-lg"
+                                       placeholder="Tìm kiếm banner..." onkeyup="searchBanners()">
+                                <button class="btn btn-outline-secondary btn-lg" type="button" onclick="searchBanners()">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 🎛️ BỘ LỌC BÊN PHẢI -->
+                        <div class="d-flex align-items-center">
+                            <div class="dropdown me-3" style="z-index: 1060;">
+                                <button class="btn btn-lg btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" id="branchFilterBtn">
+                                    <i class="fas fa-hospital me-2"></i>
+                                    <span id="branchFilterText">Chi nhánh</span>
+                                </button>
+                                <ul class="dropdown-menu" style="font-size: 1.1rem; z-index: 1061;">
+                                    <li><a class="dropdown-item" href="#" onclick="filterByBranch('all', 'Tất cả chi nhánh')">Tất cả chi nhánh</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="filterByBranch('general', 'Banner chung')">Banner chung</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    @foreach (var item in ViewBag.thongTinDN)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="filterByBranch('@item.id', '@item.tenCSKCB')">
+                                                @item.tenCSKCB
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="dropdown me-3" style="z-index: 1060;">
+                                <button class="btn btn-lg btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" id="positionFilterBtn">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    <span id="positionFilterText">Vị trí</span>
+                                </button>
+                                <ul class="dropdown-menu" style="font-size: 1.1rem; z-index: 1061;">
+                                    <li><a class="dropdown-item" href="#" onclick="filterByPosition('all', 'Tất cả vị trí')">Tất cả vị trí</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" onclick="filterByPosition('left', 'Bên trái')">Bên trái</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="filterByPosition('right', 'Bên phải')">Bên phải</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="dropdown me-3" style="z-index: 1060;">
+                                <button class="btn btn-lg btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" id="statusFilterBtn">
+                                    <i class="fas fa-toggle-on me-2"></i>
+                                    <span id="statusFilterText">Trạng thái</span>
+                                </button>
+                                <ul class="dropdown-menu" style="font-size: 1.1rem; z-index: 1061;">
+                                    <li><a class="dropdown-item" href="#" onclick="filterByStatus('all', 'Tất cả trạng thái')">Tất cả trạng thái</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" onclick="filterByStatus('active', 'Đang hoạt động')">Đang hoạt động</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="filterByStatus('inactive', 'Ngừng hoạt động')">Ngừng hoạt động</a></li>
+                                </ul>
+                            </div>
+
+                            <button class="btn btn-lg btn-outline-danger" type="button" onclick="resetAllFilters()">
+                                <i class="fas fa-sync-alt me-2"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHẦN NỘI DUNG BẢNG - HEADER CỐ ĐỊNH, NỘI DUNG CUỘN -->
+                <div class="card-body p-0 d-flex flex-column" style="flex: 1; min-height: 0;">
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive position-relative" style="flex: 1; min-height: 0;">
+                            <table class="table table-hover mb-0" style="font-size: 1.1rem; width: 100%;">
+                                <thead class="table-light" style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 10;">
+                                    <tr style="height: 70px;">
+                                        <th width="60" class="text-center align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.5px;">
+                                            STT
+                                        </th>
+                                        <th width="170" class="align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.5px;">
+                                            HÌNH ẢNH
+                                        </th>
+                                        <th width="150"  class="align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.5px;">
+                                            THÔNG TIN
+                                        </th>
+                                        <th width="800" class="text-center align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.5px;">
+                                            CHI NHÁNH
+                                        </th>
+                                        <th width="110" class="text-center align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.5px;">
+                                            VỊ TRÍ
+                                        </th>
+                                        <th width="90" class="text-center align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.1px;">
+                                            THỨ TỰ
+                                        </th>
+                                        <th width="140" class="text-center align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.1px;">
+                                            TRẠNG THÁI
+                                        </th>
+                                        <th width="250" class="text-center align-middle"
+                                            style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; letter-spacing: 0.1px;">
+                                            THAO TÁC
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <!-- Phần tbody riêng biệt để cuộn -->
+                            <div style="height: 660px; overflow-y: auto;">
+                                <table class="table table-hover mb-0" style="font-size: 1.1rem; width: 100%;">
+                                    <tbody id="bannerTable">
+                                        @{
+                                            var startNumber = ((ViewBag.CurrentPage - 1) * ViewBag.PageSize) + 1;
+                                        }
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr id="bannerRow-@item.ID"
+                                                class="@(item.HoatDong ? "" : "table-secondary")"
+                                                style="height: 80px;"
+                                                data-branch-id="@(item.ChiNhanh?.ID.ToString() ?? "general")"
+                                                data-branch-name="@(item.ChiNhanh?.TenCSKCB ?? "Banner chung")"
+                                                data-position="@item.ViTri.ToLower()"
+                                                data-status="@(item.HoatDong ? "active" : "inactive")"
+                                                data-title="@item.TieuDe.ToLower()"
+                                                data-content="@(item.NoiDung?.ToLower() ?? "")"
+                                                data-link="@(item.DuongDan ?? "")"
+                                                data-order="@item.ThuTu">
+                                                <td class="text-center align-middle">
+                                                    <span class="badge bg-dark" style="font-size: 1rem; padding: 8px 12px;">@startNumber</span>
+                                                    @{
+                                                        startNumber++;
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    @if (!string.IsNullOrEmpty(item.HinhAnh))
+                                                    {
+                                                        <img src="@item.HinhAnh"
+                                                             style="width: 130px; height: 100px; object-fit: cover; border-radius: 6px; cursor: pointer;"
+                                                             class="img-thumbnail"
+                                                             alt="@item.TieuDe"
+                                                             onclick="openImageModal('@item.HinhAnh', '@item.TieuDe')">
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-center text-muted"
+                                                             style="width: 100px; height: 70px; line-height: 70px; border: 2px dashed #ddd; border-radius: 6px; font-size: 1.5rem;">
+                                                            <i class="fas fa-image"></i>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="fw-bold" style="font-size: 1.2rem; margin-bottom: 8px;">
+                                                        @item.TieuDe
+                                                    </div>
+                                                    @if (!string.IsNullOrEmpty(item.NoiDung))
+                                                    {
+                                                        <div class="text-muted" style="font-size: 1rem; max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 6px;">
+                                                            @item.NoiDung
+                                                        </div>
+                                                    }
+                                                    <div class="text-muted" style="font-size: 0.95rem; margin-bottom: 6px;">
+                                                        <i class="far fa-calendar me-2"></i>@item.NgayTao.ToString("dd/MM/yyyy HH:mm")
+                                                        @if (item.NgayCapNhat.HasValue)
+                                                        {
+                                                            <span class="ms-3">
+                                                                <i class="fas fa-sync-alt me-2"></i>@item.NgayCapNhat.Value.ToString("dd/MM/yyyy")
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                    @if (!string.IsNullOrEmpty(item.DuongDan))
+                                                    {
+                                                        <div class="text-primary" style="font-size: 1rem;">
+                                                            <i class="fas fa-link me-2"></i>
+                                                            <a href="@item.DuongDan" target="_blank" class="text-decoration-none fw-bold">Xem liên kết</a>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td class="text-center align-middle">
+                                                    @if (item.ChiNhanh != null)
+                                                    {
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span class="badge bg-info mb-1" style="font-size: 1.3rem; padding: 6px 12px;">
+                                                                <i class="fas fa-building me-1"></i>@item.ChiNhanh.TenCSKCB
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-secondary" style="font-size: 1rem; padding: 8px 16px;">
+                                                            <i class="fas fa-globe me-1"></i> Chung
+                                                        </span>
+                                                    }
+                                                </td>
+                                                <td class="text-center align-middle">
+                                                    @switch (item.ViTri)
+                                                    {
+                                                        case "left":
+                                                            <span class="badge bg-primary" style="font-size: 1rem; padding: 8px 16px;">
+                                                                <i class="fas fa-arrow-left me-2"></i>Trái
+                                                            </span>
+                                                            break;
+                                                        case "right":
+                                                            <span class="badge bg-info" style="font-size: 1rem; padding: 8px 16px;">
+                                                                <i class="fas fa-arrow-right me-2"></i>Phải
+                                                            </span>
+                                                            break;
+                                                        case "top":
+                                                            <span class="badge bg-warning" style="font-size: 1rem; padding: 8px 16px;">
+                                                                <i class="fas fa-arrow-up me-2"></i>Trên
+                                                            </span>
+                                                            break;
+                                                        case "bottom":
+                                                            <span class="badge bg-secondary" style="font-size: 1rem; padding: 8px 16px;">
+                                                                <i class="fas fa-arrow-down me-2"></i>Dưới
+                                                            </span>
+                                                            break;
+                                                    }
+                                                </td>
+
+                                                <td class="text-center align-middle">
+                                                    <span class="badge bg-dark" style="font-size: 1rem; padding: 8px 12px;">@item.ThuTu</span>
+                                                </td>
+
+                                                <td class="text-center align-middle">
+                                                    @if (item.HoatDong)
+                                                    {
+                                                        <span class="badge bg-success" style="font-size: 1rem; padding: 8px 16px;">
+                                                            <i class="fas fa-check-circle me-2"></i>Hoạt động
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-danger" style="font-size: 1rem; padding: 8px 16px;">
+                                                            <i class="fas fa-times-circle me-2"></i>Ngừng
+                                                        </span>
+                                                    }
+                                                </td>
+
+                                                <td class="text-center align-middle">
+                                                    <div class="btn-group btn-group-lg" role="group">
+                                                        <button type="button" class="btn btn-outline-warning px-3"
+                                                                onclick="editBanner(@item.ID)"
+                                                                title="Sửa banner">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-success px-3"
+                                                                onclick="toggleStatus(@item.ID, @item.HoatDong.ToString().ToLower())"
+                                                                title="@(item.HoatDong ? "Tắt banner" : "Bật banner")">
+                                                            @if (item.HoatDong)
+                                                            {
+                                                                <i class="fas fa-toggle-on"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fas fa-toggle-off"></i>
+                                                            }
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-danger px-3"
+                                                                onclick="confirmDelete(@item.ID, '@item.TieuDe')"
+                                                                title="Xóa banner">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="mb-4">
+                                <i class="fas fa-images fa-6x text-muted"></i>
+                            </div>
+                            <h5 class="text-muted mb-3" style="font-size: 1.8rem;">Chưa có banner nào</h5>
+                            <p class="text-muted mb-4" style="font-size: 1.2rem;">Hãy thêm banner đầu tiên của bạn</p>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-lg mt-2"
+                                        onclick="resetForm()"
+                                        style="background-color:#005999;color:white;border:none;
+                           padding:12px 30px;font-size:1.2rem;width:300px">
+                                    <i class="fas fa-plus me-2"></i> Thêm Banner đầu tiên
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.Any())
+                {
+                    <div class="card-footer bg-white border-top py-3" style="flex-shrink: 0;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted" style="font-size: 1.2rem;">
+                                <div class="d-flex align-items-center flex-wrap gap-3">
+
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-images me-2" style="color: #005999;"></i>
+                                        <span>Tổng: <strong class="text-dark" style="font-size: 1.3rem;">@ViewBag.TotalItems</strong> banner</span>
+                                    </div>
+
+                                    <div class="vr"></div>
+
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-eye me-2" style="color: #28a745;"></i>
+                                        <span>
+                                            Hiển thị:
+                                            <strong class="text-primary" style="font-size: 1.3rem;">
+                                                @((ViewBag.CurrentPage - 1) * ViewBag.PageSize + 1)
+                                            </strong>
+                                            -
+                                            <strong class="text-primary" style="font-size: 1.3rem;">
+                                                @Math.Min(ViewBag.CurrentPage * ViewBag.PageSize, ViewBag.TotalItems)
+                                            </strong>
+                                        </span>
+                                    </div>
+
+                                    <div class="vr"></div>
+
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-file-alt me-2" style="color: #ffc107;"></i>
+                                        <span>
+                                            Trang:
+                                            <strong class="text-dark" style="font-size: 1.3rem;">@ViewBag.CurrentPage</strong>
+                                            /
+                                            <strong class="text-dark" style="font-size: 1.3rem;">@ViewBag.TotalPages</strong>
+                                        </span>
+                                    </div>
+
+                                    <div class="vr"></div>
+
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-toggle-on me-2" style="color: #28a745;"></i>
+                                        <span class="me-2">Hoạt động:</span>
+                                        <span class="badge bg-success" style="font-size: 1.1rem; padding: 8px 12px;">
+                                            <i class="fas fa-check-circle me-1"></i>@Model.Count(b => b.HoatDong)
+                                        </span>
+                                    </div>
+
+                                    <div class="vr"></div>
+
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-toggle-off me-2" style="color: #dc3545;"></i>
+                                        <span class="me-2">Ngừng:</span>
+                                        <span class="badge bg-danger" style="font-size: 1.1rem; padding: 8px 12px;">
+                                            <i class="fas fa-times-circle me-1"></i>@Model.Count(b => !b.HoatDong)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (ViewBag.TotalPages > 1)
+                            {
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination pagination-lg mb-0">
+
+                                        @if (ViewBag.CurrentPage > 1)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index", new { page = 1, pageSize = ViewBag.PageSize })" aria-label="First">
+                                                    <i class="fas fa-angle-double-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })" aria-label="Previous">
+                                                    <i class="fas fa-angle-left"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" aria-label="First">
+                                                    <i class="fas fa-angle-double-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <i class="fas fa-angle-left"></i>
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @{
+                                            int startPage = Math.Max(1, ViewBag.CurrentPage - 2);
+                                            int endPage = Math.Min(ViewBag.TotalPages, startPage + 4);
+
+                                            if (endPage - startPage < 4)
+                                            {
+                                                startPage = Math.Max(1, endPage - 4);
+                                            }
+
+                                            for (int i = startPage; i <= endPage; i++)
+                                            {
+                                                if (i == ViewBag.CurrentPage)
+                                                {
+                                                    <li class="page-item active">
+                                                        <span class="page-link">@i</span>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize })">@i</a>
+                                                    </li>
+                                                }
+                                            }
+                                        }
+
+                                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize })" aria-label="Next">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.TotalPages, pageSize = ViewBag.PageSize })" aria-label="Last">
+                                                    <i class="fas fa-angle-double-right"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" aria-label="Last">
+                                                    <i class="fas fa-angle-double-right"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                            }
+
+                            <div>
+                                <div class="dropdown d-inline-block me-2">
+                                    <button class="btn btn-outline-secondary btn-lg dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        @ViewBag.PageSize / trang
+                                    </button>
+                                    <ul class="dropdown-menu fs-5">
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", new { page = 1, pageSize = 10 })">10 / trang</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", new { page = 1, pageSize = 25 })">25 / trang</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", new { page = 1, pageSize = 50 })">50 / trang</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", new { page = 1, pageSize = 100 })">100 / trang</a></li>
+                                    </ul>
+
+                                </div>
+                                @* <button class="btn btn-lg btn-outline-primary px-4" onclick="exportBanners()">
+                                    <i class="fas fa-download me-2"></i> Xuất Excel
+                                </button> *@
+                            </div>
+                        </div>
+                    </div>
+                }
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" style="max-width: 100%; max-height: 70vh;" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Xác nhận xóa
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage"></p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    Hành động này không thể hoàn tác. Banner sẽ bị xóa vĩnh viễn.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                    <i class="fas fa-trash me-1"></i> Xác nhận xóa
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1056">
+    <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-check-circle me-2"></i><span id="successMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+
+    <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-exclamation-circle me-2"></i><span id="errorMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/dist/js/banner.js"></script>
+}

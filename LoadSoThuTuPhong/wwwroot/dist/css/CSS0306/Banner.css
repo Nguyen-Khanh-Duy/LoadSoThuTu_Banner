@@ -1,0 +1,201 @@
+﻿
+/* Điều chỉnh tổng thể */
+.container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Điều chỉnh sidebar (form thêm/sửa) */
+.col-lg-2.76, .col-md-3 {
+    width: 22% !important;
+    max-width: 350px;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    padding: 12px 15px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+}
+
+/* Điều chỉnh form elements */
+.form-control, .form-select {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.btn {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+}
+
+.btn-lg {
+    font-size: 1rem;
+    padding: 10px 18px;
+}
+
+/* Điều chỉnh phần danh sách */
+.col-lg-9.24, .col-md-9 {
+    width: 78% !important;
+}
+
+/* Điều chỉnh bảng */
+table {
+    font-size: 0.95rem !important;
+}
+
+.table th, .table td {
+    padding: 10px 8px !important;
+}
+
+/* Điều chỉnh chiều cao các hàng */
+thead tr {
+    height: 55px !important;
+}
+
+tbody tr {
+    height: 70px !important;
+}
+
+/* Điều chỉnh kích thước ảnh trong bảng */
+.img-thumbnail {
+    width: 110px !important;
+    height: 85px !important;
+}
+
+/* Điều chỉnh badge */
+.badge {
+    font-size: 0.85rem !important;
+    padding: 5px 10px !important;
+}
+
+/* Điều chỉnh nút trong bảng */
+.btn-group-lg .btn {
+    padding: 6px 12px !important;
+    font-size: 1rem;
+}
+
+/* Điều chỉnh phần tìm kiếm và lọc */
+.input-group-lg {
+    width: 400px !important;
+}
+
+    .input-group-lg .form-control-lg {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+
+/* Điều chỉnh dropdown */
+.dropdown-toggle {
+    font-size: 1rem !important;
+    padding: 10px 18px !important;
+}
+
+/* Điều chỉnh phân trang */
+.pagination-lg .page-link {
+    padding: 8px 14px;
+    font-size: 1rem;
+}
+
+/* Điều chỉnh footer card */
+.card-footer .text-muted {
+    font-size: 1rem !important;
+}
+
+/* Điều chỉnh phần thống kê */
+.vr {
+    height: 20px;
+    opacity: 0.5;
+}
+
+/* Điều chỉnh chiều cao phần cuộn của bảng */
+.table-responsive > div[style*="height: 660px"] {
+    height: calc(100vh - 400px) !important;
+    max-height: 600px;
+}
+
+/* Điều chỉnh phần filter buttons */
+.bg-white.border-bottom {
+    padding: 15px 20px !important;
+}
+
+/* Điều chỉnh icon trong form */
+.fas, .far {
+    font-size: 0.9em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    .col-lg-2.76, .col-md-3 {
+        width: 24% !important;
+    }
+
+    .col-lg-9.24, .col-md-9 {
+        width: 76% !important;
+    }
+
+    .input-group-lg {
+        width: 350px !important;
+    }
+}
+
+@media (max-width: 1400px) {
+    .col-lg-2.76, .col-md-3 {
+        width: 26% !important;
+    }
+
+    .col-lg-9.24, .col-md-9 {
+        width: 74% !important;
+    }
+
+    .table th, .table td {
+        padding: 8px 6px !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .col-lg-2.76, .col-md-3 {
+        width: 28% !important;
+    }
+
+    .col-lg-9.24, .col-md-9 {
+        width: 72% !important;
+    }
+
+    .input-group-lg {
+        width: 300px !important;
+    }
+}
+
+/* Scrollbar styling */
+.card-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+    .card-body::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
