@@ -1,201 +1,416 @@
-﻿
-/* Điều chỉnh tổng thể */
-.container-fluid {
-    padding-left: 10px;
-    padding-right: 10px;
+﻿/* TỐI ƯU HIỂN THỊ 100% MÀN HÌNH */
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
-/* Điều chỉnh sidebar (form thêm/sửa) */
-.col-lg-2.76, .col-md-3 {
+/*  .container-fluid {
+        height: calc(100vh - 60px);
+        padding: 5px 10px;
+        margin-top: 0 !important;
+    }
+ */
+/* ĐIỀU CHỈNH SIDEBAR (FORM) */
+.col-lg-2\\.76, .col-md-3 {
     width: 22% !important;
-    max-width: 350px;
+    min-width: 280px;
+    max-width: 320px;
+    height: calc(100vh - 70px);
 }
 
-.card {
-    border-radius: 10px;
+.card.shadow-sm.border-0.h-100 {
+    height: 100% !important;
+    max-height: calc(100vh - 70px);
+    overflow: hidden;
 }
 
 .card-header {
-    padding: 12px 15px;
+    padding: 10px 15px;
+    font-size: 1rem;
 }
 
 .card-body {
-    padding: 15px;
+    padding: 12px 15px;
+    max-height: calc(100vh - 200px) !important;
+    overflow-y: auto;
 }
 
 .card-footer {
-    padding: 10px 15px;
+    padding: 8px 15px;
+    font-size: 0.85rem;
 }
 
-/* Điều chỉnh form elements */
-.form-control, .form-select {
-    font-size: 0.95rem;
-    padding: 8px 12px;
+/* ĐIỀU CHỈNH FORM ELEMENTS */
+.mb-3 {
+    margin-bottom: 0.8rem !important;
 }
 
 .form-label {
-    font-size: 0.95rem;
-    margin-bottom: 5px;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.form-control, .form-select {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    height: 38px;
+}
+
+textarea.form-control {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.input-group .btn {
+    padding: 6px 12px;
 }
 
 .btn {
+    font-size: 0.9rem;
+    padding: 7px 14px;
+}
+
+.btn-group-lg .btn {
+    padding: 5px 10px !important;
+    font-size: 0.9rem;
+}
+
+.d-grid.gap-2.mt-4 {
+    margin-top: 1.2rem !important;
+}
+
+/* PREVIEW IMAGE */
+#imagePreview img {
+    max-width: 100%;
+    max-height: 80px;
+}
+
+/* ĐIỀU CHỈNH DANH SÁCH BANNER */
+.col-lg-9\\.24, .col-md-9 {
+    width: 78% !important;
+    height: calc(100vh - 70px);
+}
+
+.card.shadow-sm.border-0.h-100.d-flex.flex-column {
+    height: 97% !important;
+}
+
+/* FILTER SECTION */
+.bg-white.border-bottom {
+    padding: 10px 15px !important;
+}
+
+.input-group.input-group-lg {
+    width: 300px !important;
+}
+
+.input-group-lg .form-control-lg {
     font-size: 0.95rem;
-    padding: 8px 16px;
+    padding: 8px 12px;
+    height: 45px;
 }
 
 .btn-lg {
-    font-size: 1rem;
-    padding: 10px 18px;
+    font-size: 0.95rem;
+    padding: 10px 15px;
 }
 
-/* Điều chỉnh phần danh sách */
-.col-lg-9.24, .col-md-9 {
-    width: 78% !important;
+/* TABLE OPTIMIZATION */
+.table-responsive {
+    height: calc(100vh - 280px);
+    min-height: 400px;
 }
 
-/* Điều chỉnh bảng */
-table {
-    font-size: 0.95rem !important;
+/* Tách riêng phần header và body để cuộn độc lập */
+.table {
+    margin-bottom: 0;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8f9fa;
+}
+
+    thead tr {
+        height: 50px !important;
+    }
+
+tbody tr {
+    height: 60px !important;
 }
 
 .table th, .table td {
-    padding: 10px 8px !important;
+    padding: 8px 6px !important;
+    font-size: 0.9rem !important;
 }
 
-/* Điều chỉnh chiều cao các hàng */
-thead tr {
-    height: 55px !important;
+/* Column width adjustments */
+th[width="60"], td:first-child {
+    width: 50px !important;
+    min-width: 50px;
 }
 
-tbody tr {
-    height: 70px !important;
+th[width="170"], td:nth-child(2) {
+    width: 120px !important;
+    min-width: 120px;
 }
 
-/* Điều chỉnh kích thước ảnh trong bảng */
+th[width="150"], td:nth-child(3) {
+    width: 200px !important;
+    min-width: 200px;
+    max-width: 250px;
+}
+
+th[width="800"], td:nth-child(4) {
+    width: 150px !important;
+    min-width: 150px;
+}
+
+th[width="110"], td:nth-child(5) {
+    width: 80px !important;
+    min-width: 80px;
+}
+
+th[width="90"], td:nth-child(6) {
+    width: 70px !important;
+    min-width: 70px;
+}
+
+th[width="140"], td:nth-child(7) {
+    width: 100px !important;
+    min-width: 100px;
+}
+
+th[width="250"], td:nth-child(8) {
+    width: 180px !important;
+    min-width: 180px;
+}
+
+/* Image in table */
 .img-thumbnail {
-    width: 110px !important;
-    height: 85px !important;
+    width: 90px !important;
+    height: 70px !important;
+    object-fit: cover;
 }
 
-/* Điều chỉnh badge */
+/* Text overflow handling */
+.text-muted[style*="max-width: 400px"] {
+    max-width: 180px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Badge sizes */
 .badge {
-    font-size: 0.85rem !important;
-    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
+    padding: 4px 8px !important;
 }
 
-/* Điều chỉnh nút trong bảng */
-.btn-group-lg .btn {
-    padding: 6px 12px !important;
-    font-size: 1rem;
+/* Footer section */
+.card-footer.bg-white.border-top {
+    padding: 10px 15px !important;
+    font-size: 0.9rem;
 }
 
-/* Điều chỉnh phần tìm kiếm và lọc */
-.input-group-lg {
-    width: 400px !important;
+.text-muted[style*="font-size: 1.2rem"] {
+    font-size: 0.9rem !important;
 }
 
-    .input-group-lg .form-control-lg {
-        font-size: 1rem;
-        padding: 10px 15px;
-    }
-
-/* Điều chỉnh dropdown */
-.dropdown-toggle {
-    font-size: 1rem !important;
-    padding: 10px 18px !important;
-}
-
-/* Điều chỉnh phân trang */
-.pagination-lg .page-link {
-    padding: 8px 14px;
-    font-size: 1rem;
-}
-
-/* Điều chỉnh footer card */
-.card-footer .text-muted {
+.text-muted strong[style*="font-size: 1.3rem"] {
     font-size: 1rem !important;
 }
 
-/* Điều chỉnh phần thống kê */
 .vr {
-    height: 20px;
-    opacity: 0.5;
+    height: 18px;
+    margin: 0 8px;
 }
 
-/* Điều chỉnh chiều cao phần cuộn của bảng */
-.table-responsive > div[style*="height: 660px"] {
-    height: calc(100vh - 400px) !important;
-    max-height: 600px;
-}
-
-/* Điều chỉnh phần filter buttons */
-.bg-white.border-bottom {
-    padding: 15px 20px !important;
-}
-
-/* Điều chỉnh icon trong form */
-.fas, .far {
-    font-size: 0.9em;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1600px) {
-    .col-lg-2.76, .col-md-3 {
-        width: 24% !important;
-    }
-
-    .col-lg-9.24, .col-md-9 {
-        width: 76% !important;
-    }
-
-    .input-group-lg {
-        width: 350px !important;
-    }
-}
-
-@media (max-width: 1400px) {
-    .col-lg-2.76, .col-md-3 {
-        width: 26% !important;
-    }
-
-    .col-lg-9.24, .col-md-9 {
-        width: 74% !important;
-    }
-
-    .table th, .table td {
-        padding: 8px 6px !important;
-    }
-}
-
-@media (max-width: 1200px) {
-    .col-lg-2.76, .col-md-3 {
-        width: 28% !important;
-    }
-
-    .col-lg-9.24, .col-md-9 {
-        width: 72% !important;
-    }
-
-    .input-group-lg {
-        width: 300px !important;
-    }
+/* Pagination */
+.pagination-lg .page-link {
+    padding: 6px 12px;
+    font-size: 0.9rem;
 }
 
 /* Scrollbar styling */
-.card-body::-webkit-scrollbar {
+.card-body::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar,
+div[style*="overflow-y: auto"]::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
-.card-body::-webkit-scrollbar-track {
+.card-body::-webkit-scrollbar-track,
+.table-responsive::-webkit-scrollbar-track,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 3px;
 }
 
-.card-body::-webkit-scrollbar-thumb {
+.card-body::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
     background: #c1c1c1;
     border-radius: 3px;
 }
 
-    .card-body::-webkit-scrollbar-thumb:hover {
+    .card-body::-webkit-scrollbar-thumb:hover,
+    .table-responsive::-webkit-scrollbar-thumb:hover,
+    div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
+    }
+
+/* Icon sizes */
+.fas, .far, .fab {
+    font-size: 0.9em;
+}
+
+/* Compact layout for filters */
+.d-flex.justify-content-between.align-items-center {
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* No data section */
+.text-center.py-5 {
+    padding: 2rem 0 !important;
+}
+
+.fa-6x {
+    font-size: 4em;
+}
+
+h5[style*="font-size: 1.8rem"] {
+    font-size: 1.4rem !important;
+}
+
+p[style*="font-size: 1.2rem"] {
+    font-size: 1rem !important;
+}
+
+.form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#noResultsMessage {
+    animation: fadeIn 0.3s ease-in;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+}
+
+.btn-outline-secondary.active-filter {
+    background-color: #005999;
+    color: white;
+    border-color: #005999;
+}
+
+.dropdown-menu {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: none;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s;
+}
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #005999;
+    }
+
+    .dropdown-item:active {
+        background-color: #005999;
+        color: white;
+    }
+
+.form-check-input {
+    width: 1.2em;
+    height: 1.2em;
+    margin-top: 0.15em;
+    cursor: pointer;
+}
+
+    .form-check-input:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+.form-check-label {
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+/* Class chính cho thanh tiêu đề */
+.custom-table-header {
+    font-size: 1.1rem;
+    width: 100%;
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 8px 0; /* Giảm từ 15px xuống 8px */
+    font-weight: 700;
+    color: #2c3e50;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #dee2e6;
+    display: flex;
+    align-items: center;
+}
+
+    /* Class cho các cột trong thanh tiêu đề */
+    .custom-table-header > div {
+        flex-shrink: 0;
+    }
+
+    /* Các class cụ thể cho từng cột nếu cần */
+    .custom-table-header .col-stt {
+        width: 55px;
+        text-align: center;
+    }
+
+    .custom-table-header .col-image {
+        width: 130px;
+    }
+
+    .custom-table-header .col-info {
+        width: 150px;
+    }
+
+    .custom-table-header .col-branch {
+        width: 405px;
+        text-align: center;
+    }
+
+    .custom-table-header .col-position {
+        width: 65px;
+        text-align: center;
+    }
+
+    .custom-table-header .col-order {
+        width: 90px;
+        text-align: center;
+        letter-spacing: 0.1px;
+    }
+
+    .custom-table-header .col-status {
+        width: 110px;
+        text-align: center;
+        letter-spacing: 0.1px;
+    }
+
+    .custom-table-header .col-actions {
+        width: 170px;
+        text-align: center;
+        letter-spacing: 0.1px;
     }

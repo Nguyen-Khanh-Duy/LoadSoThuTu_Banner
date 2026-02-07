@@ -64,7 +64,7 @@ namespace LoadSoThuTuPhong.Controllers
                     isEdit = true;
                 }
             }
-
+            ViewData["HideSpecificMenus"] = true;
             ViewBag.thongTinDN = thongTinChiNhanh;
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
